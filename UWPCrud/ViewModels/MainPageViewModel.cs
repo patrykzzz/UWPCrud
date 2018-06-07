@@ -6,50 +6,46 @@ using Windows.UI.Xaml.Data;
 using Prism.Commands;
 using Prism.Windows.Mvvm;
 using UWPCrud.Model;
+using UWPCrud.Services.Abstract;
 
 namespace UWPCrud.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private readonly ICustomerService _customerService;
 
         public ICollectionView Customers { get; private set; }
         public CustomerModel CurrentCustomer { get; set; }
 
-        public MainPageViewModel()
+        public MainPageViewModel(ICustomerService customerService)
         {
+            _customerService = customerService;
+
             CurrentCustomer = new CustomerModel();
             
-            var exampleCustomers = new List<CustomerModel>
-            {
-                new CustomerModel
-                {
-                    FirstName = "Mark",
-                    LastName = "Zuckerberg",
-                    Occupation = "Facebook",
-                    Pesel = "96758434567"   
-                },
-                new CustomerModel
-                {
-                    FirstName = "John",
-                    LastName = "Markowski",
-                    Occupation = "Facebook",
-                    Pesel = "96758434561"   
-                }
-            };
-
             Customers = new CollectionViewSource
             {
-                Source = exampleCustomers
+                Source = _customerService.GetAllCustomers()
             }.View;
 
             Add = new DelegateCommand(() =>
             {
-                CurrentCustomer.FirstName = new Random().NextDouble().ToString(CultureInfo.InvariantCulture);
+                _customerService.AddCustomer(CurrentCustomer);
+            });
+
+            Edit = new DelegateCommand(() =>
+            {
+                _customerService.EditCustomer(CurrentCustomer);
+            });
+
+            Delete = new DelegateCommand(() =>
+            {
+                _customerService.DeleteCustomer(CurrentCustomer.Id);
             });
         }
 
         public DelegateCommand Add { get; private set; }
-        public DelegateCommand Update { get; private set; }
+        public DelegateCommand Edit { get; private set; }
         public DelegateCommand Delete { get; private set; }
     }
 }

@@ -5,10 +5,17 @@ namespace UWPCrud.Model
     public class CustomerModel : BindableBase
     {
 
+        private int _id;
         private string _firstName;
         private string _lastName;
         private string _pesel;
         private string _occupation;
+
+        public int Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
 
         public string FirstName
         {
