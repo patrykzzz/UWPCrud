@@ -12,15 +12,18 @@ namespace UWPCrud.Services
         private const string ConnectionString = "";
 
         private const string AddCustomerCommandText =
-            "INSERT INTO Customer(FirstName, LastName, Age, Pesel, Occupation) " +
-            "VALUES(@firstName, @lastName, @age, @pesel, @occupation)";
+            "INSERT INTO Customer(Id, FirstName, LastName, Age, Pesel, Occupation) " +
+            "VALUES(@id, @firstName, @lastName, @age, @pesel, @occupation)";
 
         private const string GetAllCustomersCommandText =
             "SELECT Id, FirstName, LastName, Age, Pesel, Occupation FROM Customer";
-        
+
         private const string EditCustomerCommandText =
             "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Age=@age, " +
             "Pesel=@pesel, Occupation=@occupation WHERE Id=@id";
+
+        private const string DeleteCustomerCommandText =
+            "DELETE FROM Customer WHERE Id=@id";
 
         public IEnumerable<CustomerModel> GetAllCustomers()
         {
@@ -61,7 +64,34 @@ namespace UWPCrud.Services
 
         public bool DeleteCustomer(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        var command = new SqlCommand
+                        {
+                            Connection = connection,
+                            CommandText = DeleteCustomerCommandText
+                        };
+                        command.Parameters.AddWithValue("id", id);
+
+                        if (command.ExecuteNonQuery() == 1)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool AddCustomer(CustomerModel model)
@@ -78,15 +108,19 @@ namespace UWPCrud.Services
                             Connection = connection,
                             CommandText = AddCustomerCommandText
                         };
+                        command.Parameters.AddWithValue("id", model.Id);
                         command.Parameters.AddWithValue("firstName", model.FirstName);
                         command.Parameters.AddWithValue("lastName", model.LastName);
                         command.Parameters.AddWithValue("age", model.Age);
                         command.Parameters.AddWithValue("pesel", model.Pesel);
                         command.Parameters.AddWithValue("occupation", model.Occupation);
+
+                        command.ExecuteNonQuery();
+                        return true;
                     }
                 }
 
-                return true;
+                return false;
             }
             catch (Exception)
             {
@@ -114,6 +148,7 @@ namespace UWPCrud.Services
                         command.Parameters.AddWithValue("pesel", model.Pesel);
                         command.Parameters.AddWithValue("occupation", model.Occupation);
                         command.Parameters.AddWithValue("id", model.Id);
+                        command.ExecuteNonQuery();
                     }
                 }
 

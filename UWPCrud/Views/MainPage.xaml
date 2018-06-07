@@ -14,7 +14,7 @@
         <TextBox x:Name="Age" PlaceholderText="Age" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Age, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,156,0,0"/>
         <TextBox x:Name="Pesel" PlaceholderText="Pesel name" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Pesel, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,231,0,0"/>
         <TextBox x:Name="Occupation" PlaceholderText="Occupation" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Occupation, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,310,0,0"/>
-        <ListView SelectionMode="Single" SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" ItemsSource="{Binding Customers}" HorizontalAlignment="Left" Height="350" Margin="263,10,0,0" VerticalAlignment="Top" Width="967">
+        <ListView SelectionMode="Single" SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" ItemsSource="{Binding Customers, Mode=TwoWay}" HorizontalAlignment="Left" Height="350" Margin="263,10,0,0" VerticalAlignment="Top" Width="967">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>

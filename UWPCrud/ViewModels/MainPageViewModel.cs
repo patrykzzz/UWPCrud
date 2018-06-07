@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using Windows.UI.Input;
 using Windows.UI.Xaml.Data;
 using Prism.Commands;
 using Prism.Windows.Mvvm;
@@ -12,7 +12,7 @@ namespace UWPCrud.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         private readonly ICustomerService _customerService;
-        public ICollectionView Customers { get; private set; }
+        public ObservableCollection<CustomerModel> Customers { get; private set; }
         public CustomerModel CurrentCustomer { get; set; }
         private CustomerModel _selectedCustomer;
         public CustomerModel SelectedCustomer
@@ -36,29 +36,31 @@ namespace UWPCrud.ViewModels
             _customerService = customerService;
             CurrentCustomer = new CustomerModel();
             SelectedCustomer = new CustomerModel();
+
+            Customers = new ObservableCollection<CustomerModel>(_customerService.GetAllCustomers());
             
-
-            Customers = new CollectionViewSource
-            {
-                Source = _customerService.GetAllCustomers()
-            }.View;
-
-            Customers.MoveCurrentToPosition(-1);
-
             Add = new DelegateCommand(() =>
             {
+                CurrentCustomer.Id = Customers.Max(x => x.Id) + 1;
                 if (_customerService.AddCustomer(CurrentCustomer))
                 {
-                    Customers.Add(CurrentCustomer);
-                };
+                    Customers.Add(new CustomerModel
+                    {
+                        FirstName = CurrentCustomer.FirstName,
+                        LastName = CurrentCustomer.LastName,
+                        Age = CurrentCustomer.Age,
+                        Occupation = CurrentCustomer.Occupation,
+                        Pesel = CurrentCustomer.Pesel,
+                        Id = CurrentCustomer.Id
+                    });
+                }
             });
 
             Edit = new DelegateCommand(() =>
             {
                 if (_customerService.EditCustomer(CurrentCustomer))
                 {
-                    var customers = Customers.Cast<CustomerModel>().ToList();
-                    var customerToEdit = customers.First(customer => customer.Id == CurrentCustomer.Id);
+                    var customerToEdit = Customers.First(customer => customer.Id == CurrentCustomer.Id);
                     customerToEdit.FirstName = CurrentCustomer.FirstName;
                     customerToEdit.LastName = CurrentCustomer.LastName;
                     customerToEdit.Pesel = CurrentCustomer.Pesel;
@@ -69,7 +71,10 @@ namespace UWPCrud.ViewModels
 
             Delete = new DelegateCommand(() =>
             {
-                _customerService.DeleteCustomer(CurrentCustomer.Id);
+                if (_customerService.DeleteCustomer(CurrentCustomer.Id))
+                {
+                    Customers.Remove(Customers.First(x => x.Id == CurrentCustomer.Id));
+                }
             });
         }
 
