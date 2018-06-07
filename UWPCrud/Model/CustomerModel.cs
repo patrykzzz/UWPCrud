@@ -8,6 +8,7 @@ namespace UWPCrud.Model
         private int _id;
         private string _firstName;
         private string _lastName;
+        private int _age;
         private string _pesel;
         private string _occupation;
 
@@ -21,6 +22,12 @@ namespace UWPCrud.Model
         {
             get => _firstName; 
             set => SetProperty(ref _firstName, value);
+        }
+
+        public int Age
+        {
+            get => _age; 
+            set => SetProperty(ref _age, value);
         }
 
         public string LastName

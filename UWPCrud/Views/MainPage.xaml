@@ -9,12 +9,12 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
-        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.FirstName, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,10,0,0"/>
-        <TextBox x:Name="LastName" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.LastName}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,81,0,0"/>
-        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Age}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,156,0,0"/>
-        <TextBox x:Name="Pesel" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Pesel}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,231,0,0"/>
-        <TextBox x:Name="Occupation" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Occupation}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,310,0,0"/>
-        <ListView ItemsSource="{Binding Customers}" HorizontalAlignment="Left" Height="350" Margin="263,10,0,0" VerticalAlignment="Top" Width="967">
+        <TextBox x:Name="FirstName" PlaceholderText="First name" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.FirstName, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,10,0,0"/>
+        <TextBox x:Name="LastName" PlaceholderText="Last name" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.LastName, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,81,0,0"/>
+        <TextBox x:Name="Age" PlaceholderText="Age" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Age, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,156,0,0"/>
+        <TextBox x:Name="Pesel" PlaceholderText="Pesel name" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Pesel, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,231,0,0"/>
+        <TextBox x:Name="Occupation" PlaceholderText="Occupation" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Occupation, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,310,0,0"/>
+        <ListView SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" Tapped="{x:Bind HandleTap}"  ItemsSource="{Binding Customers}" HorizontalAlignment="Left" Height="350" Margin="263,10,0,0" VerticalAlignment="Top" Width="967">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -24,6 +24,7 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10, 0, 0, 0">
                             <TextBlock Text="{Binding FirstName}" ></TextBlock>
+                            <TextBlock Padding="10, 0, 0, 0" Text="{Binding Age}"></TextBlock>
                             <TextBlock Padding="10, 0, 0, 0" Text="{Binding LastName}"></TextBlock>
                             <TextBlock Padding="10, 0, 0, 0" Text="{Binding Pesel}"></TextBlock>
                             <TextBlock Padding="10, 0, 0, 0" Text="{Binding Occupation}"></TextBlock>

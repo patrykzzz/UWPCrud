@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Prism.Mvvm;
-using Prism.Windows.AppModel;
+using Microsoft.Practices.Unity;
 using Prism.Unity.Windows;
-using Prism.Windows.Mvvm;
+using UWPCrud.Services;
+using UWPCrud.Services.Abstract;
 
 namespace UWPCrud
 {
@@ -34,12 +33,8 @@ namespace UWPCrud
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
+            Container.RegisterInstance<ICustomerService>(new CustomerService());
             return base.OnInitializeAsync(args);
-        }
-
-        protected override void ConfigureViewModelLocator()
-        {
-            base.ConfigureViewModelLocator();
         }
     }
 }

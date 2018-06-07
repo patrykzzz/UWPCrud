@@ -10,27 +10,4 @@ namespace UWPCrud.Services.Abstract
         bool AddCustomer(CustomerModel model);
         bool EditCustomer(CustomerModel model);
     }
-
-    internal class CustomerService : ICustomerService
-    {
-        public IEnumerable<CustomerModel> GetAllCustomers()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool DeleteCustomer(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool AddCustomer(CustomerModel model)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool EditCustomer(CustomerModel model)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
 }
