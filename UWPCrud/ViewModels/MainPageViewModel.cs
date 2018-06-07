@@ -1,36 +1,55 @@
-﻿using Prism.Windows.Mvvm;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using Windows.UI.Xaml.Data;
+using Prism.Commands;
+using Prism.Windows.Mvvm;
+using UWPCrud.Model;
 
 namespace UWPCrud.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private string _firstName;
-        private string _lastName;
-        private string _pesel;
-        private string _occupation;
 
-        public string FirstName
+        public ICollectionView Customers { get; private set; }
+        public CustomerModel CurrentCustomer { get; set; }
+
+        public MainPageViewModel()
         {
-            get => "hehe";
-            set => SetProperty(ref _firstName, value);
-        }
-        
-        public string LastName
-        {
-            get => _lastName;
-            set => SetProperty(ref _lastName, value);
+            CurrentCustomer = new CustomerModel();
+            
+            var exampleCustomers = new List<CustomerModel>
+            {
+                new CustomerModel
+                {
+                    FirstName = "Mark",
+                    LastName = "Zuckerberg",
+                    Occupation = "Facebook",
+                    Pesel = "96758434567"   
+                },
+                new CustomerModel
+                {
+                    FirstName = "John",
+                    LastName = "Markowski",
+                    Occupation = "Facebook",
+                    Pesel = "96758434561"   
+                }
+            };
+
+            Customers = new CollectionViewSource
+            {
+                Source = exampleCustomers
+            }.View;
+
+            Add = new DelegateCommand(() =>
+            {
+                CurrentCustomer.FirstName = new Random().NextDouble().ToString(CultureInfo.InvariantCulture);
+            });
         }
 
-        public string Pesel
-        {
-            get => _pesel;
-            set => SetProperty(ref _pesel, value);
-        }
-
-        public string Occupation
-        {
-            get => _occupation;
-            set => SetProperty(ref _occupation, value);
-        }
+        public DelegateCommand Add { get; private set; }
+        public DelegateCommand Update { get; private set; }
+        public DelegateCommand Delete { get; private set; }
     }
 }

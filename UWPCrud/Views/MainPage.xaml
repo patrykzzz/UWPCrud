@@ -9,11 +9,31 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
-        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="50" Text="{Binding FirstName}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,10,0,0"/>
-        <TextBox x:Name="LastName" HorizontalAlignment="Left" Height="50" Text="Last Name" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,81,0,0"/>
-        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="50" Text="Age" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,156,0,0"/>
-        <TextBox x:Name="Pesel" HorizontalAlignment="Left" Height="50" Text="Pesel" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,231,0,0"/>
-        <TextBox x:Name="Occupation" HorizontalAlignment="Left" Height="50" Text="Occupation" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,310,0,0"/>
-        <ListView HorizontalAlignment="Left" Height="350" Margin="263,10,0,0" VerticalAlignment="Top" Width="967"/>
+        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.FirstName, Mode=TwoWay}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,10,0,0"/>
+        <TextBox x:Name="LastName" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.LastName}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,81,0,0"/>
+        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Age}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,156,0,0"/>
+        <TextBox x:Name="Pesel" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Pesel}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,231,0,0"/>
+        <TextBox x:Name="Occupation" HorizontalAlignment="Left" Height="50" Text="{Binding CurrentCustomer.Occupation}" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Margin="33,310,0,0"/>
+        <ListView ItemsSource="{Binding Customers}" HorizontalAlignment="Left" Height="350" Margin="263,10,0,0" VerticalAlignment="Top" Width="967">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10, 0, 0, 0">
+                            <TextBlock Text="{Binding FirstName}" ></TextBlock>
+                            <TextBlock Padding="10, 0, 0, 0" Text="{Binding LastName}"></TextBlock>
+                            <TextBlock Padding="10, 0, 0, 0" Text="{Binding Pesel}"></TextBlock>
+                            <TextBlock Padding="10, 0, 0, 0" Text="{Binding Occupation}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Content="Add" Command="{Binding Path=Add}" HorizontalAlignment="Left" Margin="33,452,0,0" VerticalAlignment="Top" Height="89" Width="200"/>
+        <Button Content="Edit" Command="{Binding Path=Edit}" HorizontalAlignment="Left" Margin="263,452,0,0" VerticalAlignment="Top" Height="89" Width="200"/>
+        <Button Content="Delete" Command="{Binding Path=Delete}" HorizontalAlignment="Left" Margin="500,452,0,0" VerticalAlignment="Top" Height="89" Width="200"/>
     </Grid>
 </mvvm:SessionStateAwarePage>
