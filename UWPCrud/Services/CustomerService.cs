@@ -17,6 +17,10 @@ namespace UWPCrud.Services
 
         private const string GetAllCustomersCommandText =
             "SELECT Id, FirstName, LastName, Age, Pesel, Occupation FROM Customer";
+        
+        private const string EditCustomerCommandText =
+            "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Age=@age, " +
+            "Pesel=@pesel, Occupation=@occupation WHERE Id=@id";
 
         public IEnumerable<CustomerModel> GetAllCustomers()
         {
@@ -79,9 +83,6 @@ namespace UWPCrud.Services
                         command.Parameters.AddWithValue("age", model.Age);
                         command.Parameters.AddWithValue("pesel", model.Pesel);
                         command.Parameters.AddWithValue("occupation", model.Occupation);
-
-                        var rows = command.ExecuteNonQuery();
-
                     }
                 }
 
@@ -95,7 +96,33 @@ namespace UWPCrud.Services
 
         public bool EditCustomer(CustomerModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        var command = new SqlCommand
+                        {
+                            Connection = connection,
+                            CommandText = EditCustomerCommandText
+                        };
+                        command.Parameters.AddWithValue("firstName", model.FirstName);
+                        command.Parameters.AddWithValue("lastName", model.LastName);
+                        command.Parameters.AddWithValue("age", model.Age);
+                        command.Parameters.AddWithValue("pesel", model.Pesel);
+                        command.Parameters.AddWithValue("occupation", model.Occupation);
+                        command.Parameters.AddWithValue("id", model.Id);
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
